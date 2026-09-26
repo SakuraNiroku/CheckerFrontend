@@ -11,13 +11,32 @@ const headers = {
 export async function handleOverviewRequest(
   request,
   env,
-  { fetchImpl = fetch } = {},
+  { fetchImpl = fetch, cache = globalThis.caches?.default } = {},
 ) {
   if (!["GET", "HEAD"].includes(request.method)) {
     return new Response(JSON.stringify({ error: "此接口只支持读取" }), {
       status: 405,
       headers: { ...headers, allow: "GET, HEAD" },
     });
+  }
+  const cacheKey = request.method === "GET" && cache
+    ? new Request(request.url, { method: "GET" })
+    : null;
+  const responseHeaders = cacheKey
+    ? {
+        ...headers,
+        // The edge cache keeps the expensive upstream polling result for two
+        // minutes; max-age=0 prevents browsers from hiding a newer response.
+        "cache-control": "public, max-age=0, s-maxage=120, stale-while-revalidate=30",
+      }
+    : headers;
+  if (cacheKey) {
+    try {
+      const cached = await cache.match(cacheKey);
+      if (cached) return cached;
+    } catch {
+      // A cache outage must not take the data endpoint down.
+    }
   }
   try {
     const result = await getOverview({
@@ -26,10 +45,18 @@ export async function handleOverviewRequest(
       pollIntervalMinutes: env.POLL_INTERVAL_MINUTES,
       fetchImpl,
     });
-    return new Response(
+    const response = new Response(
       request.method === "HEAD" ? null : JSON.stringify(result),
-      { headers },
+      { headers: responseHeaders },
     );
+    if (cacheKey) {
+      try {
+        await cache.put(cacheKey, response.clone());
+      } catch {
+        // Return fresh data even when the edge cache cannot be written.
+      }
+    }
+    return response;
   } catch (error) {
     const configurationError = error.code === "CONFIGURATION_ERROR";
     const body = {

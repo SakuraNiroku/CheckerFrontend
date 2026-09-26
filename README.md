@@ -1,6 +1,8 @@
 # Heypixel 在线看板
 
-独立的中文在线人数看板，可将整个 `Frontend` 文件夹复制到新仓库，部署到 **Cloudflare Pages**。页面为静态 HTML/CSS/JavaScript；Pages Function 从环境变量读取后端地址并代理请求，不需要常驻 Node.js 服务。
+独立的中文在线人数看板，可将整个 `Frontend` 文件夹复制到新仓库，部署到 **Cloudflare Pages**。页面为静态 HTML/CSS/JavaScript；`functions/api/overview.js` 是 Pages Function，从环境变量读取后端地址并代理请求，不需要常驻 Node.js 服务。
+
+本项目使用 Pages 的部署模型，不是独立的 Cloudflare Worker：`dist/` 只包含静态资源，`functions/` 由 Pages 自动部署并处理 `/api/*`。不要把 `dist/` 单独绑定为 Worker，也不要把 `wrangler.jsonc` 的 `pages_build_output_dir` 改成 Worker 的 `main` 入口。若必须迁移到 Worker，需要另写 Worker 入口并保留同一个 `handleOverviewRequest`，不能直接把 Pages Function 文件当作 Worker 脚本。
 
 ## 本地运行
 
@@ -31,6 +33,8 @@
 4. 部署。Cloudflare 会同时构建项目根目录下的 `functions/`，并将 `/api/overview` 请求交给它处理。
 
 `API_URL` 是 **运行时服务端变量**，不会写进静态 JavaScript，也不使用 `VITE_` 前缀。Cloudflare 不会上传或读取你本机的 `.env`，必须在 Pages 项目中单独配置；修改后重新部署使新配置生效。
+
+`/api/overview` 的成功响应会在 Cloudflare 边缘缓存 120 秒（浏览器仍会向边缘发起请求），因此多个访问者不会在每次刷新时同时请求后端。配置错误和上游失败响应不会写入缓存。
 
 云端的 `API_URL` 必须是 **Cloudflare 能访问到的后端地址**，通常使用 HTTPS 域名。`127.0.0.1`、`localhost` 和仅本机可访问的地址只适合本地开发，不能在 Cloudflare 中指向你的电脑。采集程序需要另外运行，Pages 不运行 Minecraft 客户端或 .NET 控制器。
 
