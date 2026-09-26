@@ -109,9 +109,7 @@ const state = {
       ? savedFavorites.filter((item) => typeof item === "string")
       : [],
   ),
-  interval: [10, 30, 60].includes(savedSettings?.interval)
-    ? savedSettings.interval
-    : 30,
+  interval: 120,
   autoRefresh: savedSettings?.autoRefresh !== false,
 };
 const colors = [
@@ -309,7 +307,7 @@ function renderOverview() {
   $("#data-source").textContent = sourceLabel();
   $("#scan-interval").textContent = `约 ${data?.pollIntervalMinutes || 5} 分钟`;
   $("#refresh-interval").textContent = state.autoRefresh
-    ? `每 ${state.interval} 秒`
+    ? "每 2 分钟"
     : "已暂停";
   const status = health();
   $("#connection-badge").textContent = status.label;
@@ -449,7 +447,7 @@ function renderStatus() {
   const badge = (label, good, neutral = false) =>
     `<span class="status-badge${neutral ? " muted" : good ? "" : " warning"}">${label}</span>`;
   $("#status-page").innerHTML =
-    `<h2 id="status-title">从服务器到看板，发生了什么？</h2><p>${escape(status.text)}</p><div class="status-steps"><article class="status-step"><div class="status-step-icon">${icon("server")}</div><h3>01 · 连接数据接口 ${badge(apiUp ? "已连接" : "未连接", apiUp)}</h3><p>${apiUp ? "看板可以读取服务器提供的在线人数。" : "暂时无法连接采集接口，可以稍后刷新或联系管理员。"}</p></article><article class="status-step"><div class="status-step-icon">${icon("activity")}</div><h3>02 · 采集玩法人数 ${badge(running ? "已启动" : statusAvailable ? "待检查" : "未提供", running, !statusAvailable)}</h3><p>${running ? `采集程序已启动，通常每 ${data?.pollIntervalMinutes || 5} 分钟读取一次玩法人数。` : statusAvailable ? "采集程序暂未运行，请联系服务器管理员检查。" : "后端未提供运行状态；在线人数仍可通过人数接口正常更新。"}${data?.status.hasError ? " 程序曾记录异常，可由管理员检查最新日志。" : ""}</p></article><article class="status-step"><div class="status-step-icon">${icon("grid")}</div><h3>03 · 更新到看板 ${badge(fresh ? "数据较新" : "等待更新", fresh)}</h3><p>最近采集：${escape(dateTime(data?.checkedAt))}。${state.autoRefresh ? `页面每 ${state.interval} 秒读取一次结果。` : "页面自动刷新已暂停。"}</p></article></div><div class="status-help"><h3>如果人数一直没有变化</h3><p>「刷新数据」会重新读取最近的采集结果；新的人数需要等待服务器完成下一轮扫描。如果长时间没有更新，请联系管理员检查采集服务。</p><p>看板与采集程序分别运行，打开或关闭此页面都不会启动、停止游戏采集。</p></div><div class="status-help"><h3>数据是怎么算的？</h3><p>总人数为接口中各玩法的已知人数之和，不代表去重后的玩家数。未知人数显示为「—」。连接中断时，本页会保留上一次获取的结果并标明时间；重新打开页面后需再次连接接口。</p></div>`;
+    `<h2 id="status-title">从服务器到看板，发生了什么？</h2><p>${escape(status.text)}</p><div class="status-steps"><article class="status-step"><div class="status-step-icon">${icon("server")}</div><h3>01 · 连接数据接口 ${badge(apiUp ? "已连接" : "未连接", apiUp)}</h3><p>${apiUp ? "看板可以读取服务器提供的在线人数。" : "暂时无法连接采集接口，可以稍后刷新或联系管理员。"}</p></article><article class="status-step"><div class="status-step-icon">${icon("activity")}</div><h3>02 · 采集玩法人数 ${badge(running ? "已启动" : statusAvailable ? "待检查" : "未提供", running, !statusAvailable)}</h3><p>${running ? `采集程序已启动，通常每 ${data?.pollIntervalMinutes || 5} 分钟读取一次玩法人数。` : statusAvailable ? "采集程序暂未运行，请联系服务器管理员检查。" : "后端未提供运行状态；在线人数仍可通过人数接口正常更新。"}${data?.status.hasError ? " 程序曾记录异常，可由管理员检查最新日志。" : ""}</p></article><article class="status-step"><div class="status-step-icon">${icon("grid")}</div><h3>03 · 更新到看板 ${badge(fresh ? "数据较新" : "等待更新", fresh)}</h3><p>最近采集：${escape(dateTime(data?.checkedAt))}。${state.autoRefresh ? `页面每 2 分钟读取一次结果。` : "页面自动刷新已暂停。"}</p></article></div><div class="status-help"><h3>如果人数一直没有变化</h3><p>「刷新数据」会重新读取最近的采集结果；新的人数需要等待服务器完成下一轮扫描。如果长时间没有更新，请联系管理员检查采集服务。</p><p>看板与采集程序分别运行，打开或关闭此页面都不会启动、停止游戏采集。</p></div><div class="status-help"><h3>数据是怎么算的？</h3><p>总人数为接口中各玩法的已知人数之和，不代表去重后的玩家数。未知人数显示为「—」。连接中断时，本页会保留上一次获取的结果并标明时间；重新打开页面后需再次连接接口。</p></div>`;
 }
 
 function changeView() {
@@ -573,7 +571,7 @@ function openDialog(title, content, footer = "") {
 function showHelp() {
   openDialog(
     "很简单，这样使用看板",
-    `<h3>看看哪里最热闹</h3><p>「总览」展示各玩法人数合计、热门玩法和人气分布。默认按在线人数排序，点进玩法可以阅读介绍。</p><h3>找到喜欢的玩法</h3><p>输入玩法名称搜索，或者选择游戏类型。点击卡片右上角的星星，就能在「我的关注」中找到它。关注保存在当前浏览器。</p><h3>刷新与采集有什么区别？</h3><p>页面默认每 30 秒读取数据，采集程序约每 ${state.data?.pollIntervalMinutes || 5} 分钟收集一次人数。「刷新数据」只会读取最近结果，不会让采集程序立即扫描。</p><h3>导出与连接中断</h3><p>「导出数据」会下载当前搜索与筛选结果，包含人数、采集时间和来源。连接中断时，本页会保留上次成功获取的数据，并明确提示；这些数据不代表当前实时人数。</p>`,
+    `<h3>看看哪里最热闹</h3><p>「总览」展示各玩法人数合计、热门玩法和人气分布。默认按在线人数排序，点进玩法可以阅读介绍。</p><h3>找到喜欢的玩法</h3><p>输入玩法名称搜索，或者选择游戏类型。点击卡片右上角的星星，就能在「我的关注」中找到它。关注保存在当前浏览器。</p><h3>刷新与采集有什么区别？</h3><p>页面默认每 2 分钟读取数据，采集程序约每 ${state.data?.pollIntervalMinutes || 5} 分钟收集一次人数。「刷新数据」只会读取最近结果，不会让采集程序立即扫描。</p><h3>导出与连接中断</h3><p>「导出数据」会下载当前搜索与筛选结果，包含人数、采集时间和来源。连接中断时，本页会保留上次成功获取的数据，并明确提示；这些数据不代表当前实时人数。</p>`,
     '<button class="button button-primary" data-dialog-close>明白了</button>',
   );
 }
@@ -581,7 +579,7 @@ function showHelp() {
 function showSettings() {
   openDialog(
     "按你的节奏，查看数据",
-    `<div class="setting-row"><label for="auto-refresh-setting">自动刷新<small>定时读取最近一次采集结果</small></label><input id="auto-refresh-setting" type="checkbox" ${state.autoRefresh ? "checked" : ""} /></div><div class="setting-row"><label for="interval-setting">刷新间隔<small>不影响采集程序本身的扫描频率</small></label><select id="interval-setting"><option value="10" ${state.interval === 10 ? "selected" : ""}>每 10 秒</option><option value="30" ${state.interval === 30 ? "selected" : ""}>每 30 秒</option><option value="60" ${state.interval === 60 ? "selected" : ""}>每 60 秒</option></select></div><h3>仅在这台浏览器中生效</h3><p>你的关注、显示方式和刷新偏好会自动保存在当前浏览器中。</p>`,
+    `<div class="setting-row"><label for="auto-refresh-setting">自动刷新<small>每 2 分钟读取最近一次采集结果</small></label><input id="auto-refresh-setting" type="checkbox" ${state.autoRefresh ? "checked" : ""} /></div><h3>仅在这台浏览器中生效</h3><p>你的关注、显示方式和刷新偏好会自动保存在当前浏览器中。</p>`,
     '<button class="button button-secondary" data-dialog-close>取消</button><button class="button button-primary" id="save-settings">保存设置</button>',
   );
 }
@@ -706,10 +704,8 @@ $("#mode-grid").addEventListener("click", (event) => {
 $("#app-dialog").addEventListener("click", (event) => {
   if (event.target.closest("[data-dialog-close]")) $("#app-dialog").close();
   if (event.target.id === "save-settings") {
-    state.interval = Number($("#interval-setting").value);
     state.autoRefresh = $("#auto-refresh-setting").checked;
     const persisted = save("heypixel-settings", {
-      interval: state.interval,
       autoRefresh: state.autoRefresh,
     });
     scheduleRefresh();
