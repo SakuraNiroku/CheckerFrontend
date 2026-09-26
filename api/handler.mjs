@@ -66,7 +66,7 @@ export async function handleOverviewRequest(
       stack: error instanceof Error ? error.stack : undefined,
       code: error?.code,
     });
-    const configurationError = error.code === "CONFIGURATION_ERROR";
+    const configurationError = error?.code === "CONFIGURATION_ERROR";
     const body = {
       error: configurationError
         ? "尚未正确配置 API_URL，请联系看板管理员。"
