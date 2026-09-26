@@ -42,9 +42,31 @@ async function fetchJson(url, fetchImpl, timeoutMs) {
       headers: { accept: 'application/json' },
       redirect: 'error',
     });
-    if (!response.ok) return null;
-    return await response.json();
-  } catch {
+    if (!response.ok) {
+      console.error('[api/overview] upstream returned non-2xx', {
+        endpoint: new URL(url).pathname,
+        status: response.status,
+        contentType: response.headers.get('content-type'),
+      });
+      return null;
+    }
+    try {
+      return await response.json();
+    } catch (error) {
+      console.error('[api/overview] upstream returned invalid JSON', {
+        endpoint: new URL(url).pathname,
+        status: response.status,
+        contentType: response.headers.get('content-type'),
+        error: error instanceof Error ? error.message : String(error),
+      });
+      return null;
+    }
+  } catch (error) {
+    console.error('[api/overview] upstream request failed', {
+      endpoint: new URL(url).pathname,
+      error: error instanceof Error ? error.name : typeof error,
+      message: error instanceof Error ? error.message : String(error),
+    });
     return null;
   } finally {
     clearTimeout(timer);
