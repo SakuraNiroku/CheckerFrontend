@@ -40,7 +40,9 @@ async function fetchJson(url, fetchImpl, timeoutMs) {
       method: 'GET',
       signal: controller.signal,
       headers: { accept: 'application/json' },
-      redirect: 'error',
+      // Workers only supports "follow" and "manual". Manual keeps an
+      // unexpected redirect from silently changing the upstream endpoint.
+      redirect: 'manual',
     });
     if (!response.ok) {
       console.error('[api/overview] upstream returned non-2xx', {
