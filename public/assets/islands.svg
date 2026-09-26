@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 240" fill="none" role="img" aria-label="两棵方块树与小屋坐落在漂浮的绿色岛屿上">
+  <g stroke-linejoin="round">
+    <path d="m225 202 133-20 129 24-130 24z" fill="#C8DCC9" opacity=".28"/>
+    <path d="m96 196 56-10 65 12-57 13z" fill="#C8DCC9" opacity=".23"/>
+
+    <path d="m340 68 140 70-112 56-140-70z" fill="#A8C79C"/>
+    <path d="m228 124 140 70v24l-140-70z" fill="#BEAF90"/>
+    <path d="m368 194 112-56v24l-112 56z" fill="#918F70"/>
+    <path d="m228 124 140 70v9l-140-70z" fill="#709D72"/>
+    <path d="m368 194 112-56v9l-112 56z" fill="#577F5B"/>
+    <path d="m228 124 140 70 112-56" stroke="#EEF4DD" stroke-opacity=".65"/>
+    <path d="m256 138 84-42 112 56M284 152l84-42 56 28M312 166l56-28 28 14M340 180l28-14" stroke="#89B185" stroke-opacity=".42"/>
+    <path d="m284 96 28 14-28 14-28-14zM368 138l28 14-28 14-28-14zM424 110l28 14-28 14-28-14z" fill="#BED3AA"/>
+    <path d="m256 160 28 14v12l-28-14zM312 189l28 14v10l-28-14z" fill="#D8C6A5"/>
+    <path d="m396 190 28-14v12l-28 14zM452 162l14-7v10l-14 7z" fill="#AFAC88"/>
+    <path d="m284 170 14 7v6l-14-7z" fill="#A39478"/>
+
+    <path d="m152 145 56 28-42 21-56-28z" fill="#BCD2AA"/>
+    <path d="m110 166 56 28v17l-56-28z" fill="#C8B89A"/>
+    <path d="m166 194 42-21v17l-42 21z" fill="#989879"/>
+    <path d="m110 166 56 28v7l-56-28z" fill="#83AC7F"/>
+    <path d="m166 194 42-21v7l-42 21z" fill="#679464"/>
+    <path d="m124 159 28 14 28-14M152 173v1l-14 7" stroke="#97B891" stroke-opacity=".6"/>
+    <path d="m146 159 12 6-12 6-12-6z" fill="#E7ECD4"/>
+    <path d="m134 165 12 6v8l-12-6z" fill="#B9C4A2"/>
+    <path d="m146 171 12-6v8l-12 6z" fill="#91A888"/>
+
+    <path d="m276 115 27-13 29 14-27 14z" fill="#54784F" opacity=".15"/>
+    <path d="m284 88 9-5 9 5-9 5z" fill="#B79B6C"/>
+    <path d="m284 88 9 5v28l-9-5z" fill="#AA8D61"/>
+    <path d="m293 93 9-5v28l-9 5z" fill="#806E4D"/>
+    <path d="m266 64 27-14 28 14-28 14z" fill="#7FA979"/>
+    <path d="m266 64 27 14v28l-27-14z" fill="#4F7F59"/>
+    <path d="m293 78 28-14v28l-28 14z" fill="#356646"/>
+    <path d="m276 47 22-11 22 11-22 11z" fill="#A0BF8E"/>
+    <path d="m276 47 22 11v21l-22-11z" fill="#679664"/>
+    <path d="m298 58 22-11v21l-22 11z" fill="#4A7D50"/>
+    <path d="m270 77 10 5v9l-10-5z" fill="#709C6A"/>
+    <path d="m307 75 9-5v8l-9 5z" fill="#4F7E50"/>
+
+    <path d="m329 108 36-18 41 20-37 18z" fill="#54784F" opacity=".18"/>
+    <path d="m349 66 12-6 12 6-12 6z" fill="#BFA374"/>
+    <path d="m349 66 12 6v40l-12-6z" fill="#9F8054"/>
+    <path d="m361 72 12-6v40l-12 6z" fill="#776544"/>
+    <path d="m353 94 5 3v12l-5-3z" fill="#B09668"/>
+    <path d="m326 41 35-18 35 18-35 18z" fill="#739B71"/>
+    <path d="m326 41 35 18v34l-35-18z" fill="#3F7051"/>
+    <path d="m361 59 35-18v34l-35 18z" fill="#2E5941"/>
+    <path d="m339 24 27-14 28 14-28 14z" fill="#97B789"/>
+    <path d="m339 24 27 14v26l-27-14z" fill="#5B885F"/>
+    <path d="m366 38 28-14v26l-28 14z" fill="#406E4D"/>
+    <path d="m332 52 12 6v11l-12-6z" fill="#4D7C57"/>
+    <path d="m347 68 8 4v13l-8-4z" fill="#4B7B56"/>
+    <path d="m377 60 12-6v10l-12 6z" fill="#386847"/>
+    <path d="m341 24 25 13 26-13" stroke="#B2CD9D" stroke-opacity=".48"/>
+
+    <path d="m387 151 39-19 33 17-37 18z" fill="#54784F" opacity=".17"/>
+    <path d="m391 120 28-14 28 14-28 14z" fill="#E9CC99"/>
+    <path d="m391 120 28 14v27l-28-14z" fill="#C7A473"/>
+    <path d="m419 134 28-14v27l-28 14z" fill="#A98559"/>
+    <path d="m385 117 34-17 34 17-34 17z" fill="#CB8D5E"/>
+    <path d="m385 117 34 17v6l-34-17z" fill="#AF734B"/>
+    <path d="m419 134 34-17v6l-34 17z" fill="#925D3C"/>
+    <path d="m398 111 21-11 21 11-21 11z" fill="#DFAD76"/>
+    <path d="m398 111 21 11v6l-21-11z" fill="#C28C5D"/>
+    <path d="m419 122 21-11v6l-21 11z" fill="#AA7448"/>
+    <path d="m427 96 6-3 6 3-6 3z" fill="#F1E7CC"/>
+    <path d="m427 96 6 3v13l-6-3z" fill="#C6B99A"/>
+    <path d="m433 99 6-3v13l-6 3z" fill="#ABAA87"/>
+    <path d="m402 137 9 5v15l-9-5z" fill="#765D40"/>
+    <path d="m427 139 10-5v9l-10 5z" fill="#D5E9CA"/>
+    <path d="m432 137v9" stroke="#92794F" stroke-width="1.5"/>
+    <path d="m397 126 17 9M397 130l17 9" stroke="#E2C695" stroke-opacity=".55"/>
+    <path d="m400 154 12 6-6 3-12-6z" fill="#DDD4B4"/>
+    <path d="m394 157 12 6v3l-12-6z" fill="#BCB797"/>
+    <path d="m406 163 6-3v3l-6 3z" fill="#9C9F81"/>
+
+    <path d="m336 150 7-4 7 4-7 3z" fill="#F0EFCE"/>
+    <path d="m336 150 7 3v7l-7-3z" fill="#C6CBAA"/>
+    <path d="m343 153 7-3v7l-7 3z" fill="#A5B69A"/>
+    <path d="m319 136 5-2 5 2-5 3z" fill="#CBDDB7"/>
+    <path d="m319 136 5 3v5l-5-3z" fill="#9EB88B"/>
+    <path d="m324 139 5-3v5l-5 3z" fill="#81A77B"/>
+    <path d="m453 130 4-2v-9l-4 2zM456 124l5-2v-6l-5 2z" fill="#739762"/>
+    <path d="m263 125 4 2v-10l-4-2zM259 120l4 2v-7l-4-2z" fill="#729B69"/>
+    <path d="m375 177 4-2v-8l-4 2zM378 170l4-2v-6l-4 2z" fill="#719B69"/>
+
+    <path d="m210 76 11-6 12 6-12 6z" fill="#C7DABC"/>
+    <path d="m210 76 11 6v12l-11-6z" fill="#A2BBA0"/>
+    <path d="m221 82 12-6v12l-12 6z" fill="#809F85"/>
+    <path d="m474 72 9-5 10 5-10 5z" fill="#B9D4B5"/>
+    <path d="m474 72 9 5v10l-9-5z" fill="#95B598"/>
+    <path d="m483 77 10-5v10l-10 5z" fill="#729D7B"/>
+    <path d="m506 175 7-4 8 4-8 4z" fill="#D5E1C8"/>
+    <path d="m506 175 7 4v8l-7-4z" fill="#B8C6AA"/>
+    <path d="m513 179 8-4v8l-8 4z" fill="#91AC90"/>
+    <path d="m249 195 7-4 8 4-8 4z" fill="#CADBBE"/>
+    <path d="m249 195 7 4v8l-7-4z" fill="#A8BC9D"/>
+    <path d="m256 199 8-4v8l-8 4z" fill="#86A285"/>
+    <path d="m173 108 4-2 4 2-4 2zM435 47l4-2 4 2-4 2zM524 126l4-2 4 2-4 2z" fill="#9BBC99" opacity=".66"/>
+  </g>
+</svg>

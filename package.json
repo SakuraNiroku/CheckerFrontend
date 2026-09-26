@@ -1,0 +1,16 @@
+{
+  "name": "heypixel-online-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node server.mjs --preview",
+    "test": "node --test server.test.mjs api/overview.test.mjs"
+  },
+  "engines": {
+    "node": ">=20.12.0"
+  }
+}

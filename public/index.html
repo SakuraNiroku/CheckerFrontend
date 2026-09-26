@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f8fa" />
+    <meta
+      name="description"
+      content="一眼了解服务器在线人数，发现大家正在玩的游戏。"
+    />
+    <title>Heypixel · 在线看板</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23227560'/%3E%3Cpath d='M10 11h7v7h6v-7h7v18h-7v-6h-6v6h-7z' fill='white'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
+    <aside class="sidebar" aria-label="主导航">
+      <a class="brand" href="#overview" aria-label="Heypixel 首页">
+        <span class="brand-mark"
+          ><svg viewBox="0 0 40 40" aria-hidden="true">
+            <path
+              d="M10 10h7v8h6v-8h7v20h-7v-7h-6v7h-7z"
+              fill="currentColor"
+            /></svg
+        ></span>
+        <span class="brand-copy">Heypixel<span>ONLINE CHECKER</span></span>
+      </a>
+      <div class="workspace">
+        <span class="workspace-icon" data-icon="cube"></span>
+        <div><strong>我的服务器</strong><span>在线人数监测</span></div>
+        <span class="workspace-chevron" data-icon="chevrons"></span>
+      </div>
+      <span class="nav-caption">工作空间</span>
+      <nav class="nav-links">
+        <a
+          href="#overview"
+          data-view="overview"
+          class="nav-link active"
+          aria-label="总览"
+          title="总览"
+          aria-current="page"
+          ><span data-icon="grid"></span><span>总览</span></a
+        >
+        <a
+          href="#modes"
+          data-view="modes"
+          class="nav-link"
+          aria-label="全部玩法"
+          title="全部玩法"
+          ><span data-icon="gamepad"></span><span>全部玩法</span
+          ><span id="nav-mode-count" class="nav-count">—</span></a
+        >
+        <a
+          href="#favorites"
+          data-view="favorites"
+          class="nav-link"
+          aria-label="我的关注"
+          title="我的关注"
+          ><span data-icon="star"></span><span>我的关注</span
+          ><span class="favorite-dot" hidden></span
+        ></a>
+        <a
+          href="#status"
+          data-view="status"
+          class="nav-link"
+          aria-label="运行状态"
+          title="运行状态"
+          ><span data-icon="activity"></span><span>运行状态</span></a
+        >
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-tip">
+          <span class="tip-icon" data-icon="sparkles"></span
+          ><strong>每一次上线，都有陪伴</strong>
+          <p>找到喜欢的玩法，<br />一起发现方块世界的乐趣。</p>
+          <span class="tip-dots" aria-hidden="true">▪ ▪ ▪</span>
+        </div>
+        <button
+          class="nav-link"
+          id="help-button"
+          aria-label="使用指南"
+          title="使用指南"
+        >
+          <span data-icon="help"></span><span>使用指南</span
+          ><span class="external-icon" data-icon="arrow-up-right"></span>
+        </button>
+        <button
+          class="nav-link"
+          id="settings-button"
+          aria-label="看板设置"
+          title="看板设置"
+        >
+          <span data-icon="settings"></span><span>看板设置</span>
+        </button>
+        <div class="sidebar-footer">
+          <span class="tiny-cube" data-icon="cube"></span
+          ><span>小小方块，大大世界。</span>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="breadcrumb">
+          <span data-icon="home"></span><span class="slash">/</span
+          ><span id="breadcrumb-label">总览</span>
+        </div>
+        <div class="topbar-right">
+          <span class="environment-badge"
+            ><span class="status-dot neutral"></span>服务器看板</span
+          ><span class="topbar-divider"></span
+          ><button
+            class="icon-button"
+            id="top-help-button"
+            aria-label="查看使用指南"
+            title="使用指南"
+          >
+            <span data-icon="help"></span></button
+          ><button
+            class="icon-button mobile-settings"
+            id="top-settings-button"
+            aria-label="看板设置"
+            title="看板设置"
+          >
+            <span data-icon="settings"></span></button
+          ><span class="avatar" aria-label="Heypixel">H</span>
+        </div>
+      </header>
+
+      <main id="main-content" tabindex="-1">
+        <section class="page-heading">
+          <div>
+            <div class="eyebrow">YOUR SERVER, AT A GLANCE</div>
+            <h1 id="page-title">
+              服务器概览<span class="heading-dot">.</span>
+            </h1>
+            <p id="page-subtitle">此刻的热闹，一眼就知道。</p>
+          </div>
+          <div class="heading-actions">
+            <button
+              id="export-button"
+              class="button button-secondary"
+              aria-label="导出数据"
+              title="导出当前列表"
+            >
+              <span data-icon="download"></span><span>导出数据</span></button
+            ><button
+              id="refresh-button"
+              class="button button-primary"
+              aria-label="刷新数据"
+            >
+              <span data-icon="refresh"></span><span>刷新数据</span>
+            </button>
+          </div>
+        </section>
+
+        <div id="notice" class="notice" role="status" hidden></div>
+
+        <section
+          id="welcome-banner"
+          class="welcome-banner"
+          aria-label="欢迎来到在线看板"
+        >
+          <div class="welcome-content">
+            <div class="banner-kicker">
+              <span class="mini-square"></span> HEYPIXEL COMMUNITY
+            </div>
+            <h2>方块世界，热爱相聚。</h2>
+            <p>发现热门玩法，看看大家都在哪里冒险。</p>
+            <div class="server-pill">
+              <span data-icon="server"></span
+              ><span id="server-name">正在读取服务器…</span
+              ><span class="pill-divider"></span><span>Minecraft</span>
+            </div>
+          </div>
+          <img
+            class="island-art"
+            src="/assets/islands.svg"
+            alt="由草地、树木和小屋组成的漂浮方块岛屿"
+          />
+          <span class="banner-grid" aria-hidden="true"></span>
+        </section>
+
+        <section
+          id="stats"
+          class="stats-grid"
+          aria-label="人数概览"
+          aria-busy="true"
+        >
+          <article class="stat-card">
+            <div class="stat-label">
+              <span>玩法在线总人数</span
+              ><span class="stat-icon green" data-icon="users"></span>
+            </div>
+            <div class="stat-value" id="total-online">—<span>人</span></div>
+            <div class="stat-foot">
+              <span class="mini-dot"></span><span>各玩法人数合计</span>
+            </div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">
+              <span>正在监测的玩法</span
+              ><span class="stat-icon blue" data-icon="gamepad"></span>
+            </div>
+            <div class="stat-value" id="mode-count">—<span>个</span></div>
+            <div class="stat-foot" id="mode-foot">涵盖多种游戏类型</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">
+              <span>当前最热门</span
+              ><span class="stat-icon orange" data-icon="flame"></span>
+            </div>
+            <div class="stat-value stat-name" id="popular-mode">—</div>
+            <div class="stat-foot" id="popular-foot">等待玩法数据</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">
+              <span>最近采集时间</span
+              ><span class="stat-icon purple" data-icon="clock"></span>
+            </div>
+            <div class="stat-value stat-time" id="checked-time">—</div>
+            <div class="stat-foot" id="checked-foot">等待采集结果</div>
+          </article>
+        </section>
+
+        <div class="dashboard-grid" id="dashboard-grid">
+          <section
+            class="panel modes-panel"
+            id="modes-panel"
+            aria-labelledby="modes-title"
+          >
+            <div class="panel-heading">
+              <div class="panel-title">
+                <span class="title-marker"></span>
+                <h2 id="modes-title">游戏玩法</h2>
+                <span class="count-badge" id="result-count">—</span>
+              </div>
+              <div class="view-switch" role="group" aria-label="显示方式">
+                <button
+                  class="icon-button selected"
+                  id="grid-view"
+                  aria-label="卡片视图"
+                  aria-pressed="true"
+                >
+                  <span data-icon="grid"></span></button
+                ><button
+                  class="icon-button"
+                  id="list-view"
+                  aria-label="列表视图"
+                  aria-pressed="false"
+                >
+                  <span data-icon="list"></span>
+                </button>
+              </div>
+            </div>
+            <div class="mode-toolbar">
+              <label class="search-input"
+                ><span data-icon="search"></span
+                ><input
+                  id="search-input"
+                  type="search"
+                  placeholder="搜索你喜欢的玩法…"
+                  aria-label="搜索玩法"
+                  autocomplete="off"
+                /><kbd>/</kbd></label
+              ><label class="sort-control"
+                ><span data-icon="sort"></span
+                ><select id="sort-select" aria-label="排序方式">
+                  <option value="popular">人数从高到低</option>
+                  <option value="ascending">人数从低到高</option>
+                  <option value="name">按玩法名称</option>
+                </select></label
+              >
+            </div>
+            <div class="filter-row" role="group" aria-label="筛选游戏类型">
+              <button
+                class="filter-button active"
+                data-filter="all"
+                aria-pressed="true"
+              >
+                全部玩法</button
+              ><button
+                class="filter-button"
+                data-filter="competitive"
+                aria-pressed="false"
+              >
+                竞技对战</button
+              ><button
+                class="filter-button"
+                data-filter="casual"
+                aria-pressed="false"
+              >
+                休闲娱乐</button
+              ><button
+                class="filter-button"
+                data-filter="other"
+                aria-pressed="false"
+              >
+                其他玩法
+              </button>
+            </div>
+            <div id="mode-grid" class="mode-grid" aria-busy="true">
+              <div class="loading-state">
+                <span class="loader"></span>
+                <p>正在连接你的方块世界…</p>
+              </div>
+            </div>
+            <div class="modes-footer">
+              <span
+                ><span class="mini-dot"></span
+                ><span id="visible-count">正在读取玩法</span></span
+              ><span>点击玩法卡片了解详情</span>
+            </div>
+          </section>
+
+          <aside class="insights" aria-label="服务器详情">
+            <section class="panel distribution-panel">
+              <div class="panel-heading">
+                <div class="panel-title">
+                  <span class="title-marker orange-marker"></span>
+                  <h2>人气分布</h2>
+                </div>
+                <span class="muted-small">TOP 5</span>
+              </div>
+              <div class="donut-wrap">
+                <div
+                  id="distribution-chart"
+                  class="donut"
+                  role="img"
+                  aria-label="等待人数分布"
+                >
+                  <div class="donut-center">
+                    <span>在线玩家</span><strong id="donut-total">—</strong
+                    ><span class="donut-bottom">一起，让世界热闹</span>
+                  </div>
+                </div>
+              </div>
+              <div id="distribution-legend" class="distribution-legend"></div>
+              <div class="panel-note">
+                <span data-icon="info"></span
+                ><span>各玩法人数占已知总人数的比例</span>
+              </div>
+            </section>
+            <section class="panel connection-panel">
+              <div class="panel-heading">
+                <div class="panel-title">
+                  <span class="title-marker blue-marker"></span>
+                  <h2>采集状态</h2>
+                </div>
+                <span id="connection-badge" class="status-badge muted"
+                  >连接中</span
+                >
+              </div>
+              <dl class="connection-list">
+                <div>
+                  <dt><span data-icon="server"></span>数据来源</dt>
+                  <dd id="data-source">—</dd>
+                </div>
+                <div>
+                  <dt><span data-icon="refresh"></span>页面自动刷新</dt>
+                  <dd id="refresh-interval">每 30 秒</dd>
+                </div>
+                <div>
+                  <dt><span data-icon="clock"></span>玩法采集间隔</dt>
+                  <dd id="scan-interval">约 5 分钟</dd>
+                </div>
+              </dl>
+              <div class="connection-note" id="connection-note">
+                正在检查采集服务…
+              </div>
+              <a class="text-link" href="#status"
+                >查看运行详情<span data-icon="arrow-right"></span
+              ></a>
+            </section>
+            <div class="little-note">
+              <span data-icon="leaf"></span>
+              <p>总有一场冒险，<br />正在等你加入。</p>
+              <span class="pixel-dots" aria-hidden="true">▪<br />▪ ▪</span>
+            </div>
+          </aside>
+        </div>
+
+        <section
+          class="panel status-page"
+          id="status-page"
+          hidden
+          aria-labelledby="status-title"
+        ></section>
+        <footer class="main-footer">
+          <span
+            >Heypixel Online Checker
+            <span class="footer-dot">·</span> 让热爱，看得见。</span
+          ><span id="footer-update">正在获取最新数据</span>
+        </footer>
+      </main>
+    </div>
+
+    <dialog id="app-dialog"><div id="dialog-content"></div></dialog>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <noscript
+      ><div class="noscript">
+        请启用浏览器 JavaScript，以查看在线人数和使用筛选功能。
+      </div></noscript
+    >
+  </body>
+</html>
