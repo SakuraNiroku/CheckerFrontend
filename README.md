@@ -32,6 +32,8 @@
 3. 在 Pages 项目中设置环境变量 **`API_URL`**，例如 `https://api.example.com`。需要预览部署时，也为 Preview 环境设置此变量。
 4. 部署。Cloudflare 会同时构建项目根目录下的 `functions/`，并将 `/api/overview` 请求交给它处理。
 
+Pages 的部署设置中请将 **Deploy command（部署命令）留空**。Git 集成会在构建完成后自动发布 `dist/`，并一并部署 `functions/`。不要填写 `npx wrangler deploy`，那是 Worker 的部署命令，会因为本项目没有 Worker `main` 入口而失败。
+
 `API_URL` 是 **运行时服务端变量**，不会写进静态 JavaScript，也不使用 `VITE_` 前缀。Cloudflare 不会上传或读取你本机的 `.env`，必须在 Pages 项目中单独配置；修改后重新部署使新配置生效。
 
 `/api/overview` 的成功响应会在 Cloudflare 边缘缓存 120 秒（浏览器仍会向边缘发起请求），因此多个访问者不会在每次刷新时同时请求后端。配置错误和上游失败响应不会写入缓存。
@@ -45,6 +47,12 @@
 ```sh
 npm run build
 npx wrangler@4 pages deploy dist
+```
+
+也可以使用项目脚本：
+
+```sh
+npm run deploy:pages
 ```
 
 首次运行按 Wrangler 提示登录并选择/创建 Pages 项目，然后在该项目中配置 `API_URL`。命令须在包含 `functions/` 和 `wrangler.jsonc` 的目录运行。

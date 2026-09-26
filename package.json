@@ -7,6 +7,7 @@
     "start": "node server.mjs",
     "dev": "node server.mjs",
     "build": "node scripts/build.mjs",
+    "deploy:pages": "wrangler pages deploy dist",
     "preview": "node server.mjs --preview",
     "test": "node --test server.test.mjs api/overview.test.mjs"
   },
